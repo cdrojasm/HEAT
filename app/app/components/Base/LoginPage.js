@@ -9,17 +9,9 @@ import { addUserInfo, pushNotification } from '../../redux/actions';
 import { StyledButton } from '../Recursive/mui_styled_components';
 import { connect, useDispatch } from 'react-redux';
 import Router from "next/router";
-import {
-    Divider,
-    Typography,
-    Box
-} from '@mui/material';
-import {
-    getUserLogin,
-} from '../../api/creangelAuthAPI'
-import {
-    validatorAPIBasicParameters,
-} from '../../source/validators';
+import { Divider, Typography, Box } from '@mui/material';
+import { getUserLogin } from '../../api/creangelAuthAPI'
+import { validatorAPIBasicParameters } from '../../source/validators';
 import NotificatorLogin from '../Recursive/NotificatorLogin';
 import { jwtDecode } from "jwt-decode";
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
@@ -76,12 +68,7 @@ const LoginPage = (props) => {
         if (validatorUser?.status == "ok" && validatorPassword?.status == "ok") {
             let objDataLogin = {
                 "password": passwordIn,
-                "organization_id": props.organization[0]?.id
-            }
-            if (userIn.includes("@")) {
-                objDataLogin["email"] = userIn
-            } else {
-                objDataLogin["username"] = userIn
+                "username": userIn
             }
             let responseLogin = await getUserLogin(objDataLogin);
             const [validLogin, responseLoginData] = validatorAPIBasicParameters(responseLogin);
@@ -99,7 +86,7 @@ const LoginPage = (props) => {
                 let userData = responseLoginData["data"];
                 if (responseStatus == "err") {
                     let notificationObject = {
-                        "msg": `Credenciales incorrectas.`,
+                        "msg": `Provided user or password not found.`,
                         "status": "err"
                     };
                     dispatch(pushNotification(notificationObject));
@@ -107,7 +94,7 @@ const LoginPage = (props) => {
                     setTokenAccess(userData.access_token)
                 } else {
                     let notificationObject = {
-                        "msg": `Servicio no disponible, intente más tarde.`,
+                        "msg": `Service not available.`,
                         "status": "err"
                     };
                     dispatch(pushNotification(notificationObject));
@@ -161,16 +148,16 @@ const LoginPage = (props) => {
 
     return (
         <>
-            <Box id="dataCatalog_admin_app_container">
+            <Box id="HEAT_app_container">
                 <Box className="center_vert">
                     <Box className='fullWidth center_horz mt_20'>
                         <Box className='pad_t_40 pad_b_40 pad_l_60 pad_r_60 w_350px box_shadow_aws bg_white mt_10-vh'>
                             <Typography variant="h5" className="mb_15" style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
-                                Iniciar sesión
+                                LogIn
                             </Typography>
                             <Divider className="mt_10" />
                             <Typography variant="h6" component="div" style={{ fontSize: "18px", marginTop: "20px" }}>
-                                Usuario
+                                User
                             </Typography>
                             <Box className="fullWidht bg_white_op_f2 brdr_rad_3px border_none pad_b_10 pad_t_10">
                                 <input
@@ -186,13 +173,13 @@ const LoginPage = (props) => {
                                 </Typography>
                             }
                             <Typography variant="h5" component="div" style={{ fontSize: "18px", marginTop: "20px" }}>
-                                Contraseña
+                                Password
                             </Typography>
                             <Box className="fullWidht center_vert">
                                 <Box className="fullWidht bg_white_op_f2 brdr_rad_3px border_none pad_b_10 pad_t_10 distributed_horz">
                                     <input
-                                        id = "inputLogin"
-                                        style={{fontSize: "16px !important"}}
+                                        id="inputLogin"
+                                        style={{ fontSize: "16px !important" }}
                                         className="pad_0 font_16px border_none outline_none bg_white_op_f2 color_body_text fullWidht"
                                         type={viewPassword == true ? "text" : "password"}
                                         onChange={(e) => { handleChangePasswordInput(e) }}

@@ -22,10 +22,15 @@ else
         exit 1
     fi
 fi
-apt install -y python3-pip
-if [ $? != 0 ]; then
+
+OUTPUT_CHECK_PIP_VERSION=$( pip --version )
+if [ "$OUTPUT_CHECK_PIP_VERSION" != "" ]; then
     echo "it was not possible to install pip, please install python or make the env file by yourself"
 else
+    apt install -y python3-pip
+    if [ $? != 0 ]; then
+        echo "it was not possible to install pip, please install pip or make the env file by yourself"
+    fi
     pip install "typer[all]"
     if [ $? != 0 ]; then
         echo "it was not possible to install typer, please install typer or make the env file by yourself"
@@ -33,9 +38,9 @@ else
 fi
 
 echo "NOW you can handle the installation routines running the CLI HEATInstaller.py ..."
-if [ ! -f "./HEATInstaller.py" ]; then
+if [ ! -f "./HEATManager.py" ]; then
     echo "HEATInstaller.py file not found in the current path, it is not possible to continue with the installation"
     exit 1
 fi
-python HEATInstaller.py --help
+python HEATManager.py --help
 

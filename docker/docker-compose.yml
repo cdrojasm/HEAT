@@ -45,6 +45,13 @@ services:
     - GID=$dockerGID
     - OMPI_ALLOW_RUN_AS_ROOT=1
     - OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
+  app:
+    build: ../app
+    volumes: 
+      - ../app:/app
+    ports:
+      - 8765:3030
+
 
 #NOTES:
 #to run HEAT in batch mode, first bind mount the /root/terminal directory to your
