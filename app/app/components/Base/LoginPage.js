@@ -22,7 +22,6 @@ import {
 } from '../../source/validators';
 import NotificatorLogin from '../Recursive/NotificatorLogin';
 import { jwtDecode } from "jwt-decode";
-//=====Icons    
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
 import VisibilityOffRoundedIcon from '@mui/icons-material/VisibilityOffRounded';
 
@@ -38,26 +37,6 @@ const LoginPage = (props) => {
     const dispatch = useDispatch();
     const verbose = false;
 
-    /*
-    =======================================================
-    ===============VERBOSE=================================
-    =======================================================
-    */
-
-    if (verbose) { console.log("ModalLogin0", props) }
-    if (verbose) { console.log("ModalLogin1", userInput) }
-    if (verbose) { console.log("ModalLogin2", passwordInput) }
-    if (verbose) { console.log("ModalLogin3", errorUser) }
-    if (verbose) { console.log("ModalLogin4", errorPassword) }
-    if (verbose) { console.log("ModalLogin5", tokenAccess) }
-    if (verbose) { console.log("ModalLogin6", viewPassword) }
-
-    /*
-    =======================================================
-    ===============USEEFFECTS==============================
-    =======================================================
-    */
-
     useEffect(() => {
         if (tokenAccess != "") {
             let tokenDecoded = jwtDecode(tokenAccess);
@@ -68,18 +47,7 @@ const LoginPage = (props) => {
             }));
             Router.push(props.forward);
         }
-        /*
-        if (tokenAccess == "") {
-            Router.push(props.forward);
-        }
-        */
     }, [tokenAccess]);
-
-    /*
-    ==============================================================
-    ===============CONTROL FUNCTIONS==============================
-    ==============================================================
-    */
 
     const handleChangeUserInput = (event) => {
         setUserInput(event.target.value);
@@ -190,12 +158,6 @@ const LoginPage = (props) => {
             return !deepCopyPrev
         })
     }
-
-    /*
-    ==============================================================
-    ===============RENDER=========================================
-    ==============================================================
-    */
 
     return (
         <>
