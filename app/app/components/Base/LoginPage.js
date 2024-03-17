@@ -9,8 +9,7 @@ import { addUserInfo, pushNotification } from '../../redux/actions';
 import { StyledButton } from '../Recursive/mui_styled_components';
 import { connect, useDispatch } from 'react-redux';
 import Router from "next/router";
-import { Divider, Typography, Box } from '@mui/material';
-import { getUserLogin } from '../../api/creangelAuthAPI'
+import { Box, Divider, Link, Typography } from '@mui/material';
 import { validatorAPIBasicParameters } from '../../source/validators';
 import NotificatorLogin from '../Recursive/NotificatorLogin';
 import { jwtDecode } from "jwt-decode";
@@ -75,7 +74,7 @@ const LoginPage = (props) => {
             if (verbose) { console.log("loginData1", validLogin) }
             if (validLogin != true) {
                 let notificationObject = {
-                    "msg": `Servicio no disponible, intente más tarde.`,
+                    "msg": `Backend service is not available, try later.`,
                     "status": "err"
                 };
                 dispatch(pushNotification(notificationObject));
@@ -107,13 +106,13 @@ const LoginPage = (props) => {
         let notif2return = {}
         if (passwordIn == "" || passwordIn == undefined) {
             notif2return = {
-                "msg": "El campo usuario está vacío.",
+                "msg": "User field is empty",
                 "status": "err",
             }
             setErrorUser(notif2return.msg);
         } else {
             notif2return = {
-                "msg": "El campo usuario está ok",
+                "msg": "User field is empty",
                 "status": "ok",
             }
             setErrorUser("")
@@ -125,13 +124,13 @@ const LoginPage = (props) => {
         let notif2return = {}
         if (userInput == "" || userInput == undefined) {
             notif2return = {
-                "msg": "El campo contraseña está vacío.",
+                "msg": "Password field is empty.",
                 "status": "err",
             }
-            setErrorPassword("El campo contraseña está vacío.")
+            setErrorPassword("Password field is empty.")
         } else {
             notif2return = {
-                "msg": "El campo contraseña está ok",
+                "msg": "Password is ok.",
                 "status": "ok",
             }
             setErrorPassword("")
@@ -147,91 +146,96 @@ const LoginPage = (props) => {
     }
 
     return (
-        <>
-            <Box id="HEAT_app_container">
-                <Box className="center_vert">
-                    <Box className='fullWidth center_horz mt_20'>
-                        <Box className='pad_t_40 pad_b_40 pad_l_60 pad_r_60 w_350px box_shadow_aws bg_white mt_10-vh'>
+        <Box id="HEAT_app_container" className="h_vh_100 background_img_1">
+            <Box className="center_vert">
+                <Box className='fullWidth center_horz mt_20'>
+                    <Box className='pad_t_40 pad_b_40 pad_l_60 pad_r_60 w_350px box_shadow_aws bg_white mt_10-vh brdr_rad_20px'>
+                        <Box className="flex flex_col align_items_center">
+                            <img width={"60px"} src={staticPrefix + "/img/heat_donut_logo.png"} className='rotate' />
                             <Typography variant="h5" className="mb_15" style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
-                                LogIn
+                                Sign in to HEAT
                             </Typography>
-                            <Divider className="mt_10" />
-                            <Typography variant="h6" component="div" style={{ fontSize: "18px", marginTop: "20px" }}>
-                                User
+                        </Box>
+                        <Divider className="mt_10" />
+                        <Typography variant="h6" component="div" style={{ fontSize: "18px", marginTop: "20px" }}>
+                            User
+                        </Typography>
+                        <Box className="w_90 bg_white_op_f2 brdr_rad_3px border_none pad_b_10 pad_t_10 pad_l_20 pad_r_20">
+                            <input
+                                className="pad_0 font_16px border_none outline_none bg_white_op_f2 color_body_text fullWidht"
+                                type="text"
+                                onChange={(e) => { handleChangeUserInput(e) }}
+                                value={userInput}
+                            />
+                        </Box>
+                        {errorUser != "" &&
+                            <Typography component="div" style={{ fontSize: "12px", textAlign: "end" }}>
+                                <a style={{ color: "#a41a1a" }}>{errorUser}</a>
                             </Typography>
-                            <Box className="fullWidht bg_white_op_f2 brdr_rad_3px border_none pad_b_10 pad_t_10">
+                        }
+                        <Typography variant="h5" component="div" style={{ fontSize: "18px", marginTop: "20px" }}>
+                            Password
+                        </Typography>
+                        <Box className="fullWidht center_vert">
+                            <Box className="w_90 bg_white_op_f2 brdr_rad_3px border_none pad_b_10 pad_t_10 pad_l_20 pad_r_20 distributed_horz">
                                 <input
+                                    id="inputLogin"
+                                    style={{ fontSize: "16px !important" }}
                                     className="pad_0 font_16px border_none outline_none bg_white_op_f2 color_body_text fullWidht"
-                                    type="text"
-                                    onChange={(e) => { handleChangeUserInput(e) }}
-                                    value={userInput}
+                                    type={viewPassword == true ? "text" : "password"}
+                                    onChange={(e) => { handleChangePasswordInput(e) }}
+                                    value={passwordInput}
                                 />
-                            </Box>
-                            {errorUser != "" &&
-                                <Typography component="div" style={{ fontSize: "12px", textAlign: "end" }}>
-                                    <a style={{ color: "#a41a1a" }}>{errorUser}</a>
-                                </Typography>
-                            }
-                            <Typography variant="h5" component="div" style={{ fontSize: "18px", marginTop: "20px" }}>
-                                Password
-                            </Typography>
-                            <Box className="fullWidht center_vert">
-                                <Box className="fullWidht bg_white_op_f2 brdr_rad_3px border_none pad_b_10 pad_t_10 distributed_horz">
-                                    <input
-                                        id="inputLogin"
-                                        style={{ fontSize: "16px !important" }}
-                                        className="pad_0 font_16px border_none outline_none bg_white_op_f2 color_body_text fullWidht"
-                                        type={viewPassword == true ? "text" : "password"}
-                                        onChange={(e) => { handleChangePasswordInput(e) }}
-                                        value={passwordInput}
-                                    />
-                                    <Box
-                                        className="center_vert"
-                                    >
-                                        {viewPassword == false && <VisibilityRoundedIcon fontSize="small" className='bg_icons_color' onClick={() => { handleViewPassword() }} />}
-                                        {viewPassword == true && <VisibilityOffRoundedIcon fontSize="small" className='bg_icons_color' onClick={() => { handleViewPassword() }} />}
-                                    </Box>
-                                </Box>
-                            </Box>
-                            {errorPassword != "" &&
-                                <Typography component="div" style={{ fontSize: "12px", textAlign: "end" }}>
-                                    <a style={{ color: "#a41a1a" }}>{errorPassword}</a>
-                                </Typography>
-                            }
-                            <Box className="fullWidht center_horz">
-                                <NotificatorLogin />
-                            </Box>
-                            <Box className="center_horz gap_10_undetermine pad_t_30">
-                                <StyledButton
-                                    variant="contained"
-                                    onClick={() => { handleClenaAll() }}
+                                <Box
+                                    className="center_vert"
                                 >
-                                    <Box component="span">
-                                        {"Limpiar"}
-                                    </Box>
-                                </StyledButton>
-                                <StyledButton
-                                    variant="contained"
-                                    onClick={(e) => { handleLogin(e, userInput, passwordInput) }}
-                                >
-                                    <Box component="span">
-                                        {"Ingresar"}
-                                    </Box>
-                                </StyledButton>
-                            </Box>
-                            <Box className="pad_t_20">
-                                <Box className="center_horz">
-                                    <img width={"45px"} src={staticPrefix + "/img/logocreangel.png"} />
-                                </Box>
-                                <Box className="center_horz">
-                                    <p className='font_roboto'>©2024 Creangel</p>
+                                    {viewPassword == false && <VisibilityRoundedIcon fontSize="small" className='bg_icons_color' onClick={() => { handleViewPassword() }} />}
+                                    {viewPassword == true && <VisibilityOffRoundedIcon fontSize="small" className='bg_icons_color' onClick={() => { handleViewPassword() }} />}
                                 </Box>
                             </Box>
                         </Box>
+                        {errorPassword != "" &&
+                            <Typography component="div" style={{ fontSize: "12px", textAlign: "end" }}>
+                                <a style={{ color: "#a41a1a" }}>{errorPassword}</a>
+                            </Typography>
+                        }
+                        <Box className="fullWidht center_horz">
+                            <NotificatorLogin />
+                        </Box>
+                        <Box className="center_horz gap_10_undetermine pad_t_30">
+                            <StyledButton
+                                variant="contained"
+                                onClick={(e) => { handleLogin(e, userInput, passwordInput) }}
+                            >
+                                <Box component="span">
+                                    {"Sign In"}
+                                </Box>
+                            </StyledButton>
+                            <StyledButton
+                                variant="contained"
+                                onClick={() => { handleClenaAll() }}
+                            >
+                                <Box component="span">
+                                    {"Clean All"}
+                                </Box>
+                            </StyledButton>
+                        </Box>
+                        <Box className="mt_15 mb_15">
+                            <Box className="center_horz">
+                                <Link href="#" variant="body2">Create User</Link>
+                            </Box>
+                        </Box>
+                        <Divider className="mt_10" />
+                        <Box className="pad_t_10">
+                            <Box className="center_horz">
+                                <p className='font_roboto'>©2024 HEAT</p>
+                            </Box>
+                        </Box>
+
                     </Box>
                 </Box>
             </Box>
-        </>
+        </Box>
     )
 }
 

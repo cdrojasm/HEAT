@@ -1,6 +1,13 @@
 body {
   background-color: rgb(86 75 102 / 12%);
   font-family: "Roboto, system-ui";
+  margin: 0px;
+}
+
+.background_img_1 {
+  background-image: url('../img/bg1.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 #datacatalog_admin_app_container {
@@ -198,6 +205,10 @@ body {
 
 .h_50 {
   height: 50%;
+}
+
+.h_vh_100 {
+  height: 100vh;
 }
 
 .fullHeight {
@@ -956,6 +967,7 @@ input:-webkit-autofill,
 input:-webkit-autofill:focus {
   transition: background-color 600000s 0s, color 600000s 0s;
 }
+
 input[data-autocompleted] {
   background-color: transparent !important;
 }
@@ -966,4 +978,19 @@ input[data-autocompleted] {
 
 #confirmPassBad:focus {
   color: #a41a1a !important;
+}
+
+
+.rotate {
+  animation: rotation 2s linear infinite;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(359deg);
+  }
 }
