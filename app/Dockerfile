@@ -7,6 +7,6 @@ RUN ls -la
 WORKDIR /app
 COPY . /app
 RUN ls -la
-RUN chmod 777 -R startServices.sh
+RUN chmod 777 -R start_services.sh
 RUN ls -la
-CMD ["/app/startServices.sh"]
+CMD ["/app/start_services.sh"]
