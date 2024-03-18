@@ -13,9 +13,6 @@ import {
     validatorAPIBasicParameters,
 } from '../../../source/validators';
 import {
-    deleteUser,
-} from '../../../api/creangelAuthAPI'
-import {
     Box,
 } from '@mui/material';
 import { useDispatch } from 'react-redux';

@@ -26,10 +26,6 @@ import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import { StyledDrawerHeader, colorAPP, StyledChip, StyledAvatar, StyledSwitch } from '../Recursive/mui_styled_components';
 import MuiDrawer from '@mui/material/Drawer';
 import {
-    getUserLogout,
-    getUserPermissions
-} from '../../api/creangelAuthAPI'
-import {
     validateExpirationTime
 }
     from '../../source/recursiveSecurity';

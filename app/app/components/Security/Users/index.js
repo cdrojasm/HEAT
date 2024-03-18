@@ -12,9 +12,6 @@ import UsersAdmin from './UsersAdmin';
 import CreateUser from './CreateUser';
 import DeleteUser from './DeleteUser';
 import Box from '@mui/material/Box';
-import {
-    getUsersList
-} from '../../../api/creangelAuthAPI'
 import { removeUserInfo, pushNotification} from '../../../redux/actions';
 import {
     validatorAPIBasicParameters,

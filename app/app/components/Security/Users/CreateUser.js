@@ -8,9 +8,6 @@ import { useState, useEffect } from 'react';
 import { StyledButton } from '../../Recursive/mui_styled_components';
 import { removeUserInfo, pushNotification } from '../../../redux/actions';
 import { useDispatch } from 'react-redux';
-import {
-    getUserRol,
-} from '../../../api/creangelAuthAPI'
 import { validateExpirationTime } from '../../../source/recursiveSecurity';
 import {
     validatorAPIBasicParameters,
