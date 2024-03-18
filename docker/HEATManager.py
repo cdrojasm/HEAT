@@ -1,10 +1,11 @@
 import typer
 import os
+import shutil
 
 app = typer.Typer()
 BASE_PATH = "./"
 APP_PATH = os.path.join(BASE_PATH, "../","app")
-APP_PATH = os.path.join(BASE_PATH, "../","api")
+API_PATH = os.path.join(BASE_PATH, "../","api")
 ENV_ROUTE = os.path.join(BASE_PATH, '.env')
 LIST_INSTALLATION_PARAMETERS = [
     {
@@ -61,11 +62,14 @@ def set_env_params():
         for param in LIST_INSTALLATION_PARAMETERS:
             typer.echo(f"Please enter value for {param['name']}:")
             value = input()
-            if value == "":
+
+            if value != "":
                 value = param['default']
                 f.write(f"\n{param['name']}={value}")
                 typer.echo(f"{param['name']} set to {value}")
         f.close()
+    shutil.copyfile(ENV_ROUTE, os.path.join(APP_PATH, ".env"))
+    shutil.copyfile(ENV_ROUTE, os.path.join(API_PATH, ".env"))
     typer.echo("All parameters set.")
 
 
@@ -104,6 +108,12 @@ def deploy_app():
     typer.echo("Deploying HEAT Application...")
     os.system(f"docker-compose up -d --build")
     typer.echo("HEAT Application deployed.")
+
+@app.command()
+def restart_app_service():
+    typer.echo("Restarting HEAT Application...")
+    os.system(f"docker-compose restart app")
+    typer.echo("HEAT Application restarted.")
 
 
 if __name__ == "__main__":
