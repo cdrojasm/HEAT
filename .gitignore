@@ -2,3 +2,5 @@
 docker/docker-compose.yml
 docs/build/
 .env
+binaries
+__pycache__
