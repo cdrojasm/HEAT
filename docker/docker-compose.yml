@@ -18,6 +18,7 @@ services:
       #format is: /host/path:/container/path
       #user should not edit container paths
       #
+      - ../binaries:/opt/target
       # HEAT data directory on this machine (need to replace with absolute path on Windows)
       - ../../HEATData:/root/HEAT
 #      # HEAT source code from github
@@ -46,11 +47,21 @@ services:
     - OMPI_ALLOW_RUN_AS_ROOT=1
     - OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
   app:
+    container_name: heat_app
     build: ../app
     volumes: 
       - ../app:/app
     ports:
-      - 8765:3030
+      - ${DEPLOYMENT_APP_PORT}:3030
+  api:
+    container_name: heat_api
+    hostname: api
+    build: ../api
+    volumes:
+      - ../api:/api
+    ports:
+      - ${DEPLOYMENT_API_PORT}:5000
+  
 
 
 #NOTES:

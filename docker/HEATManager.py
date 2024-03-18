@@ -62,7 +62,6 @@ def set_env_params():
         for param in LIST_INSTALLATION_PARAMETERS:
             typer.echo(f"Please enter value for {param['name']}:")
             value = input()
-
             if value != "":
                 value = param['default']
                 f.write(f"\n{param['name']}={value}")
@@ -115,6 +114,11 @@ def restart_app_service():
     os.system(f"docker-compose restart app")
     typer.echo("HEAT Application restarted.")
 
+@app.command()
+def set_time_zone():
+    typer.echo("Setting time zone...")
+    os.system(f"sudo timedatectl set-timezone America/New_York")
+    typer.echo("Time zone set.")
 
 if __name__ == "__main__":
     app()
