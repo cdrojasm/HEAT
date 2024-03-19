@@ -58,7 +58,7 @@ services:
     hostname: api
     build: ../api
     volumes:
-      - ../api:/api
+      - ../api:/app
     ports:
       - ${DEPLOYMENT_API_PORT}:5000
   
