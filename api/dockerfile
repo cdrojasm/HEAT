@@ -3,7 +3,7 @@ RUN apk add --update
 RUN apk add --no-cache python3
 RUN apk add --no-cache py3-pip
 RUN pip install -U setuptools
-
+RUN pip install gunicorn
 RUN pip install flask-restful
 RUN pip install flasgger
 RUN pip install -U Flask-SQLAlchemy
@@ -13,6 +13,7 @@ RUN pip install Flask-CORS
 RUN pip install python-dotenv
 RUN pip install requests
 RUN pip install pip install Flask-APScheduler
+RUN pip install gevent
 
 RUN mkdir -p /app
 WORKDIR /app
