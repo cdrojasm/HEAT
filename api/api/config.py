@@ -7,6 +7,7 @@ class BaseConfig:
     # load environmental variables from secrets file
     ENV_FILE_PATH_RELATIVE = ""
     load_dotenv(ENV_FILE_PATH_RELATIVE)
+    BASE_DIR = "/app/api"
 
     # base configurations
     TESTING = os.getenv("TESTING", False)
@@ -18,6 +19,8 @@ class BaseConfig:
     DB_PORT = os.getenv("DB_PORT")
     DB_NAME = os.getenv("DB_NAME")
     DB_TYPE = os.getenv("DB_TYPE")
+
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', f'sqlite:///{BASE_DIR}/dbAuth.sqlite3')
 
 
 class DevelopmentConfig(BaseConfig):

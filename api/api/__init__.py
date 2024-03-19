@@ -1,7 +1,8 @@
+import os
 from flask import Flask, Blueprint
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
-from source.config import config
+from .config import config
 from flask_restful import Api
 
 db = SQLAlchemy()
@@ -35,5 +36,7 @@ def create_app(config_name=None):
     print("starting API", flush=True)
     print("sitemap:", flush=True)
     print("app.url_map", flush=True)
+
+    return app
 
 
