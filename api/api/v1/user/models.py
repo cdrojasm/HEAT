@@ -14,7 +14,7 @@ class User(db.Model):
     active = db.Column("active", db.Boolean(), unique=False, nullable=False)
 
     def __init__(self, **kwargs):
-        super(Machine, self).__init__(**kwargs)
+        super(User, self).__init__(**kwargs)
         return True
 
     def __repr__(self):
@@ -24,7 +24,10 @@ class User(db.Model):
         return {
                 "username":self.username,
                 "email":self.email,
-                "last_login":self.last_login
+                "last_login":self.last_login, 
+                "created_at":self.created_at,
+                "updated_at":self.updated_at, 
+                "active":self.active
                 }
 
     def set_password(self, password):

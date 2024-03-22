@@ -4,10 +4,6 @@ class MHD(db.Model):
     __tablename__="mhd"
 
     id = db.Column("id", db.String(64), unique=True, primary_key=True)
-    user_id = db.Column("user_id", db.String(64), db.ForeignKey("user.id"))
-    user = db.relationship("User", backref=db.backref("users", lazy=True, cascade="all, delete-orphans"))
-    simulation_id = db.Column("simulation_id", db.String(64), db.ForeignKey("cascade.id"))
-    simulation = db.relationship("simulation", backref=db.backref("simulations", lazy=True, cascade="all, delete-orphans"))
     shot = db.Column("shot", db.Integer(), unique=False, nullable=False)
     tmin = db.Column("tmin", db.Integer(), unique=False, nullable=False)
     tmax = db.Column("tmax", db.Integer(), unique=False, nullable=False)
@@ -20,3 +16,12 @@ class MHD(db.Model):
 
     def __repr__(self):
         return f"<MHD {self.id}>"
+
+    def as_dict(self):
+        return {
+                "shot":self.shot,
+                "tmin":self.tmin,
+                "tmax":self.tmax,
+                "traceLength":self.traceLength,
+                "dpinit":self.dpinit
+                }

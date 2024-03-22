@@ -25,6 +25,12 @@ def create_app(config_name=None):
     db.init_app(app)
     migrate.init_app(app, db)
 
+    # register blueprints
+    from .v1 import api_version_1_blueprint
+    api_blueprint.register_blueprint(api_version_1_blueprint)
+    app.register_blueprint(api_version_1_blueprint)
+
+
 
     @app.shell_context_processor
     def ctx():
@@ -36,6 +42,7 @@ def create_app(config_name=None):
     print("starting API", flush=True)
     print("sitemap:", flush=True)
     print("app.url_map", flush=True)
+    print(app.url_map, flush=True)
 
     return app
 
