@@ -1,6 +1,8 @@
 from . import user_blueprint
 from flask_restful import Resource, Api, reqparse, fields, marshal_with
 from .views import create, edit, list_, login, logout, delete
+from ..simulation.routes import simulation_object_marshall_definition
+
 
 user_api_blueprint = Api(user_blueprint)
 
@@ -18,12 +20,15 @@ parser_user_get_user_info = reqparse.RequestParser()
 parser_user_get_user_info.add_argument("user_id", type=str, required=True)
 
 user_object_marshall_definition = {
-    "id":fields.String,
     "username":fields.String,
     "email":fields.String,
+    "last_login":fields.DateTime,
     "created_at":fields.DateTime,
     "updated_at":fields.DateTime,
-    "last_login":fields.DateTime
+    "active":fields.Boolean,
+    "id":fields.String,
+    "logged_in":fields.String,
+    "simulations":fields.List(fields.Nested(simulation_object_marshall_definition))
 }
 
 base_response_marshall = {
