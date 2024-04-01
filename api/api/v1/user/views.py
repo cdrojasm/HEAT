@@ -2,16 +2,19 @@ import datetime
 from .models import User
 from api import db
 import uuid
+from sqlalchemy import or_
 
 def create(
     username:str,
     email:str,
     password:str
 ):
-    if User.query.filter_by(email=email).first() is not None:
+    if db.session.query(User).filter(or_(
+        User.email==email, 
+        User.username==username)).first() is not None:
         return {
             "status":"error",
-            "msg":"User with email already exists"
+            "msg":"User with email or username already exists"
         }, 400
     user_instance = User(
         id = str(uuid.uuid4()),
