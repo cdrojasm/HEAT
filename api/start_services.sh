@@ -22,7 +22,7 @@ echo "TIME_OUT = $TIME_OUT"
 echo "PORT = $PORT"
 echo "MODE = $MODE"
 
-gunicorn --bind "0.0.0.0:$PORT" \
+gunicorn --bind "0.0.0.0:5000" \
 	--worker-class gevent \
 	--workers "$WORKERS" \
 	--log-level $MODE \
