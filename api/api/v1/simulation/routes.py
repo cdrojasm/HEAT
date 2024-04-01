@@ -9,6 +9,10 @@ parser_simulation_create.add_argument("name", type=str, required=True)
 parser_simulation_create.add_argument("description", type=str, required=True)
 parser_simulation_create.add_argument("user_id", type=str, required=True)
 
+simulation_object_marshall_definition = {
+    "name":fields.String
+    }
+
 
 user_object_marshall_definition = {
     "id":fields.String,
