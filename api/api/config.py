@@ -8,6 +8,10 @@ class BaseConfig:
     ENV_FILE_PATH_RELATIVE = ""
     load_dotenv(ENV_FILE_PATH_RELATIVE)
     BASE_DIR = "/app/api"
+    DATA_DIR = os.path.join(BASE_DIR, "/opt/data")
+
+    #AUTH CONFIG 
+    LOGIN_MAX_TIME = timedelta(hours=4)
 
     # base configurations
     TESTING = os.getenv("TESTING", False)
@@ -20,7 +24,7 @@ class BaseConfig:
     DB_NAME = os.getenv("DB_NAME")
     DB_TYPE = os.getenv("DB_TYPE")
 
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', f'sqlite:///{BASE_DIR}/dbAuth.sqlite3')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', f'sqlite:///{BASE_DIR}/dbHEAT.sqlite3')
 
 
 class DevelopmentConfig(BaseConfig):

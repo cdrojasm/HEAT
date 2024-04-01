@@ -30,7 +30,11 @@ def create_app(config_name=None):
     api_blueprint.register_blueprint(api_version_1_blueprint)
     app.register_blueprint(api_version_1_blueprint)
 
-
+    with app.app_context():
+        create_records = False
+        if not os.path.isfile("dbHEAT.sqlite3"):
+            create_records = True
+            db.create_all()
 
     @app.shell_context_processor
     def ctx():
