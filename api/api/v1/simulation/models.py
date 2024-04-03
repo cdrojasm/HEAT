@@ -8,7 +8,6 @@ from ..photonHF.models import PhotonHF
 from ..gyroHF.models import GyroHF
 from ..openFOAM.models import OpenFOAM
 
-
 class Simulation(db.Model):
     __tablename__="simulation"
 
