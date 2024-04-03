@@ -11,10 +11,22 @@ parser_user_create.add_argument("username", type=str, required=True)
 parser_user_create.add_argument("email", type=str, required=True)
 parser_user_create.add_argument("password", type=str, required=True)
 
+parser_user_edit = reqparse.RequestParser()
+parser_user_edit.add_argument("username", type=str, required=True)
+parser_user_edit.add_argument("user_id", type=str, required=True)
+parser_user_edit.add_argument("password", type=str, required=True)
+
+parser_user_delete = reqparse.RequestParser()
+parser_user_delete.add_argument("user_id", type=str, required=True)
+
 parser_user_login = reqparse.RequestParser()
 parser_user_login.add_argument("email", type=str, required=False)
 parser_user_login.add_argument("username", type=str, required=False)
 parser_user_login.add_argument("password", type=str, required=True)
+
+parser_user_logout =  reqparse.RequestParser()
+parser_user_logout.add_argument("email", type=str, required=False)
+parser_user_logout.add_argument("username", type=str, required=False)
 
 parser_user_get_user_info = reqparse.RequestParser()
 parser_user_get_user_info.add_argument("user_id", type=str, required=True)
@@ -50,24 +62,24 @@ user_object_single_response_marshall_definition = {
 class User_handler_access(Resource):
     
     @marshal_with(user_object_single_response_marshall_definition)
-    def post(self, action):
+    def post(self):
         args_login_user = parser_user_login.parse_args()
         username = args_login_user.username
-        organization_id = args_login_user.organization_id
         email = args_login_user.email
         password = args_login_user.password
-        if action == "login":
-            return login(
-                email=email,
-                password=password,
-                username=username
-            )
-        elif action == "logout":
+        return login(
+            email=email,
+            password=password,
+            username=username
+        )
+    
+    def delete(self):
+            args_logout_user = parser_user_logout.parse_args()
+            username = args_logout_user.username
+            email = args_logout_user.email
             return logout(
-                email=email,
-                password=password,
-                username=username
-                
+                 username=username,
+                 email=email
             )
 
 class User_handler(Resource):
@@ -84,15 +96,15 @@ class User_handler(Resource):
         
     @marshal_with(user_object_single_response_marshall_definition)
     def put(self):
-        args_edit_user = parser_user_create.parse_args()
+        args_edit_user = parser_user_edit.parse_args()
         user_args_edit_dict = { key: value for key, value in args_edit_user.items() if value is not None }
         return edit(**user_args_edit_dict)
     
     @marshal_with(base_response_marshall)
     def delete(self):
-        args_edit_user = parser_user_create.parse_args()
+        args_edit_user = parser_user_delete.parse_args()
         user_args_delete_dict = { key: value for key, value in args_edit_user.items() if value is not None }
         return delete(**user_args_delete_dict)
 
 user_api_blueprint.add_resource(User_handler, "")
-user_api_blueprint.add_resource(User_handler_access, "/access/<string:action>")
+user_api_blueprint.add_resource(User_handler_access, "/access")
