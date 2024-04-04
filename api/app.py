@@ -1,3 +1,4 @@
-from api import create_app
+from api import create_app, ext_celery
 
 app = create_app()
+celery= ext_celery.celery

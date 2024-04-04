@@ -4,12 +4,14 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from .config import config
 from flask_restful import Api
+from flask_celeryext import FlaskCeleryExt
+from api.celery_utils import make_celery
 
 db = SQLAlchemy()
 migrate = Migrate()
 api_blueprint = Blueprint("api", __name__, url_prefix="/api")
 api = Api(api_blueprint)
-
+ext_celery = FlaskCeleryExt(create_celery_app=make_celery)
 
 def create_app(config_name=None):
     if config_name == None:
@@ -24,6 +26,7 @@ def create_app(config_name=None):
     # set up extensions
     db.init_app(app)
     migrate.init_app(app, db)
+    ext_celery.init_app(app)
 
     # register blueprints
     from .v1 import api_version_1_blueprint
