@@ -61,6 +61,21 @@ services:
       - ../api:/app
     ports:
       - ${DEPLOYMENT_API_PORT}:5000
+  api_broker:
+    container_name: ${DEPLOYMENT_API_BROKER_CONTAINER_NAME}
+    hostname: ${DEPLOYMENT_API_BROKER_CONTAINER_NAME}
+    image: redis:5.0.5
+    command: redis-server --maxmemory 1gb --maxmemory-policy allkeys-lfu --save '' --appendonly no --protected-mode no --maxclients 1000 --timeout 61
+    restart: always
+  api_worker:
+    container_name: ${DEPLOYMENT_API_WORKER_CONTAINER_NAME}
+    hostname: ${DEPLOYMENT_API_WORKER_CONTAINER_NAME}
+    build: ../api
+    command: celery --app app.celery worker --concurrency=10 --loglevel=info
+    environment:
+      - CELERY_WORKER=true
+    volumes:
+      - ../api:/app
   
 
 
