@@ -11,6 +11,8 @@ from ..openFOAM.models import OpenFOAM
 class Simulation(db.Model):
     __tablename__="simulation"
 
+    AVAILABLE_SIMULATION_STATUS = ["running", "non-checked", "checked"]
+
     id = db.Column("id", db.String(64), unique=True, primary_key=True)
     name = db.Column("name", db.String(128), unique=True, nullable=False)
     description= db.Column("description", db.String(600), unique=False, nullable=True)
@@ -37,6 +39,7 @@ class Simulation(db.Model):
     path = db.Column("path", db.String(600), unique=False, nullable=True)
     created_at = db.Column("created_at", db.DateTime, unique=False, nullable=False)
     edited_at = db.Column("edited_at", db.DateTime, unique=False, nullable=False)
+    status = db.Column("status", db.Enum(*AVAILABLE_SIMULATION_STATUS), unique=False, nullable=True)
 
     def __init__(self, **kwargs):
         super(Simulation, self).__init__(**kwargs)
@@ -60,7 +63,8 @@ class Simulation(db.Model):
             "last_run":self.last_run,
             "path":self.path,
             "created_at":self.created_at,
-            "edited_at":self.edited_at
+            "edited_at":self.edited_at,
+            "user_id":self.user_id
         }
 
 
