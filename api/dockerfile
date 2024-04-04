@@ -14,6 +14,9 @@ RUN pip install python-dotenv
 RUN pip install requests
 RUN pip install pip install Flask-APScheduler
 RUN pip install gevent
+RUN pip install -U Celery
+RUN pip install Flask-CeleryExt==0.4.3
+RUN pip install redis
 
 RUN mkdir -p /app
 WORKDIR /app
