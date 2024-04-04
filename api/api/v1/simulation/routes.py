@@ -23,13 +23,15 @@ simulation_object_marshall_definition = {
     "name":fields.String
     }
 
-user_object_marshall_definition = {
+user_object_marshall_definition_basic = {
     "id":fields.String,
-    "username":fields.String,
-    "email":fields.String,
+    "user_id":fields.String,
+    "name":fields.String,
+    "description":fields.String,
+    "path":fields.String,
     "created_at":fields.DateTime,
-    "updated_at":fields.DateTime,
-    "last_login":fields.DateTime
+    "edited_at":fields.DateTime,
+    "last_run":fields.DateTime
 }
 
 base_response_marshall = {
@@ -39,12 +41,12 @@ base_response_marshall = {
 
 user_object_list_response_marshall_definition = {
     **base_response_marshall,
-    "data":fields.List(fields.Nested(user_object_marshall_definition))   
+    "data":fields.List(fields.Nested(user_object_marshall_definition_basic))   
 }
 
 user_object_single_response_marshall_definition = {
     **base_response_marshall,
-    "data":fields.Nested(user_object_marshall_definition)
+    "data":fields.Nested(user_object_marshall_definition_basic)
 }
 
 class Simulation_actions_handler(Resource):
@@ -82,7 +84,7 @@ class Simulation_config_handler(Resource):
     def delete(self, action):
         pass
 
-    # get simulation components
+    # get simulation info
     @marshal_with(user_object_single_response_marshall_definition)
     def get(self, action):
         pass
@@ -124,10 +126,10 @@ class Simulation_handler(Resource):
         user_args_edit_dict = { key: value for key, value in args_edit_user.items() if value is not None }
         return edit(**user_args_edit_dict)
 
-    @marshal_with(user_object_single_response_marshall_definition)
-    def delete(self, simulation_id):
+    @marshal_with(base_response_marshall)
+    def delete(self):
         args_delete_user = parser_simulation_delete.parse_args()
-        simulation_id = args_delete_user.get("simulation_id")
+        simulation_id = args_delete_user.simulation_id
         return delete(simulation_id)
 
 simulation_api_blueprint.add_resource(Simulation_handler, "")
